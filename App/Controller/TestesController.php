@@ -5,7 +5,7 @@ namespace App\Controller;
 class TestesController {
     public function __construct()
     {
-        echo "Hello World";
+        // echo "Hello World";
     }
 }
 
