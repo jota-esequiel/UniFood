@@ -1,8 +1,6 @@
 <?php 
 require_once '../vendor/autoload.php';
+require_once '../App/Config/config.php';
 
-use App\Controller\TestesController;
-new \App\Config\Router();
-
-$controller = new TestesController();
+new \App\Core\RouterCore();
 ?>
