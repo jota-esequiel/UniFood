@@ -1,6 +1,7 @@
 RewriteEngine On
-RewriteBase /
+RewriteBase /UniFood/
 
-RewriteCond %{THE_REQUEST} templates/([^\s?]*) [NC]
-RewriteRule ^ %1 [L,NE,R=302]
-RewriteRule ^((?!templates/).*)$ UniFood/templates/$1 [L,NC]
+# Redireciona todas as requisições para index.php, exceto arquivos existentes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
