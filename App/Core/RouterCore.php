@@ -11,7 +11,6 @@ class RouterCore
     public function __construct()
     {
         $this->initialize();
-        require '../UniFood/App/Config/Router.php';
         $this->execute();
     }
 
@@ -31,13 +30,13 @@ class RouterCore
         }
     }
 
-    public function addRoute($router, $callBack)
+    public function get($router, $callBack)
     {
         $this->getArray[] = [ 
             'router' => $router,
             'callBack' => $callBack
         ];
-    }
+}
 
     private function execute()
     {
@@ -53,14 +52,17 @@ class RouterCore
 
     private function executeGet()
     {
-        foreach ($this->getArray as $get) {
-            $routerR = substr($get['router'], 1);
-            if ($routerR == $this->Uri) {
-                if(is_callable( $get['callBack'])) {
-                    $get['callBack']();
-                break;
-                }
-            }
+        $uriParts = explode('/', $this->Uri);
+        $controllerName = ucfirst($uriParts[0] ?? 'Usuarios') . 'Controller'; 
+        $action = $uriParts[1] ?? 'index'; 
+
+        $controllerNamespace = "\\App\\Controller\\{$controllerName}";
+
+        if (class_exists($controllerNamespace) && method_exists($controllerNamespace, $action)) {
+            $controllerInstance = new $controllerNamespace();
+            call_user_func_array([$controllerInstance, $action], []);
+        } else {
+            echo "404 - Controller ou método não encontrado.";
         }
     }
 
