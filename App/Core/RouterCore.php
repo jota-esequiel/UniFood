@@ -7,6 +7,7 @@ class RouterCore
     private $Uri;
     private $Method;
     private $getArray = [];
+    private $postArray = [];
 
     public function __construct()
     {
@@ -14,7 +15,7 @@ class RouterCore
         $this->execute();
     }
 
-    private function Initialize()
+    private function initialize()
     {
         $this->Method = $_SERVER['REQUEST_METHOD'];
         $this->Uri = $_SERVER['REQUEST_URI'];
@@ -26,7 +27,7 @@ class RouterCore
             for ($i = 0; $i < UNSET_URI_COUNT; $i++) {
                 unset($this->Uri[$i]);
             }
-            $this->Uri = implode('/', $this->Normalize($this->Uri));
+            $this->Uri = implode('/', $this->normalize($this->Uri));
         }
     }
 
@@ -36,7 +37,15 @@ class RouterCore
             'router' => $router,
             'callBack' => $callBack
         ];
-}
+    }
+
+    public function post($router, $callBack)
+    {
+        $this->postArray[] = [
+            'router' => $router,
+            'callBack' => $callBack
+        ];
+    }
 
     private function execute()
     {
@@ -46,6 +55,11 @@ class RouterCore
                 break;
 
             case 'POST':
+                $this->executePost();
+                break;
+
+            default:
+                echo "Método não suportado.";
                 break;
         }
     }
@@ -66,7 +80,23 @@ class RouterCore
         }
     }
 
-    private function Normalize($uriTrat)
+    private function executePost()
+    {
+        $uriParts = explode('/', $this->Uri);
+        $controllerName = ucfirst($uriParts[0] ?? 'Usuarios') . 'Controller'; 
+        $action = $uriParts[1] ?? 'store';
+
+        $controllerNamespace = "\\App\\Controller\\{$controllerName}";
+
+        if (class_exists($controllerNamespace) && method_exists($controllerNamespace, $action)) {
+            $controllerInstance = new $controllerNamespace();
+            call_user_func_array([$controllerInstance, $action], [$_POST]);
+        } else {
+            echo "404 - Controller ou método não encontrado.";
+        }
+    }
+
+    private function normalize($uriTrat)
     {
         return array_values(array_filter($uriTrat));
     }
