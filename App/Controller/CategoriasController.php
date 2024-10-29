@@ -1,6 +1,7 @@
 <?php 
 
 //Wesley Rodrigues
+//Eduardo Silva
 
 namespace App\Controller;
 
