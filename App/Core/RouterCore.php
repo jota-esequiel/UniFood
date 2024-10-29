@@ -33,7 +33,7 @@ class RouterCore
 
     public function get($router, $callBack)
     {
-        $this->getArray[] = [ 
+        $this->getArray[] = [
             'router' => $router,
             'callBack' => $callBack
         ];
@@ -69,12 +69,13 @@ class RouterCore
         $uriParts = explode('/', $this->Uri);
         $controllerName = ucfirst($uriParts[0] ?? 'Usuarios') . 'Controller'; 
         $action = $uriParts[1] ?? 'index'; 
+        $params = array_slice($uriParts, 2);
 
         $controllerNamespace = "\\App\\Controller\\{$controllerName}";
 
         if (class_exists($controllerNamespace) && method_exists($controllerNamespace, $action)) {
             $controllerInstance = new $controllerNamespace();
-            call_user_func_array([$controllerInstance, $action], []);
+            call_user_func_array([$controllerInstance, $action], $params); 
         } else {
             echo "404 - Controller ou método não encontrado.";
         }
@@ -85,12 +86,13 @@ class RouterCore
         $uriParts = explode('/', $this->Uri);
         $controllerName = ucfirst($uriParts[0] ?? 'Usuarios') . 'Controller'; 
         $action = $uriParts[1] ?? 'store';
+        $params = array_slice($uriParts, 2);
 
         $controllerNamespace = "\\App\\Controller\\{$controllerName}";
 
         if (class_exists($controllerNamespace) && method_exists($controllerNamespace, $action)) {
             $controllerInstance = new $controllerNamespace();
-            call_user_func_array([$controllerInstance, $action], [$_POST]);
+            call_user_func_array([$controllerInstance, $action], array_merge($params, [$_POST])); // Passa os parâmetros
         } else {
             echo "404 - Controller ou método não encontrado.";
         }

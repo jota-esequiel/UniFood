@@ -40,7 +40,7 @@ class UsuariosController extends AppComponent {
             $formData = $this->getFormData($cmp);
 
             if(!empty($formData)) {
-                $this->Hold->insert('UNIFOOD', 'INSERT', 'usuarios', $formData);
+                $this->Hold->insert('UniFood', 'INSERT', 'usuarios', $formData);
             } else {
                 throw new \InvalidArgumentException('Não foi possível se cadastrar!');
             }

@@ -11,7 +11,7 @@ class DataComponent {
         $port = '5432';    
     
         if (is_null($bd)) {
-            $bd = 'UNIFOOD'; 
+            $bd = 'UniFood'; 
         }
     
         try {
@@ -33,32 +33,6 @@ class DataComponent {
             }
         }
     }
-
-    public function bdQueryFetch($strQuery) {
-        try {
-            $strPdo = $this->bdConnect();
-            
-            if ($strPdo === null) {
-                die("Erro ao conectar ao banco de dados!");
-            }
-    
-            $strStmt = $strPdo->prepare($strQuery);
-    
-            if ($strStmt === false) {
-                die("Ocorreu algum problema ao preparar a consulta ao banco de dados!");
-            }
-    
-            $strStmt->execute();
-            $strResult = $strStmt->fetch(\PDO::FETCH_ASSOC);
-            
-            return $strResult;
-    
-        } catch (\PDOException $e) {
-            die("Erro ao executar consulta ao banco de dados: " . $e->getMessage());
-        }
-    }
-    
-    
     
     public function bdQueryFetchAll($strQuery) {
         try {
