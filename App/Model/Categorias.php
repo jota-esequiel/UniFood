@@ -3,7 +3,7 @@
 namespace App\Model;
 use App\Controller\Component\DataComponent;
 
-class Usuarios {
+class Categorias {
     public $Data;
 
     public function __construct()
@@ -12,8 +12,8 @@ class Usuarios {
         $this->Data->bdConnect('UniFood');
     }
 
-    public function sqlUsuarios() {
-        $strQuery = " SELECT * FROM usuarios ";
+    public function sqlVisualizar() {
+        $strQuery = " SELECT * FROM categoria ";
         return $strQuery;
     }
 }

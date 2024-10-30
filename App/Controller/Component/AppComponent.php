@@ -294,6 +294,23 @@ class AppComponent {
             echo '</table>';
         }
     }
+
+    public function redirect($params)
+    {
+        $controller = $params['controller'] ?? '';
+        $action = $params['action'] ?? '';
+
+        unset($params['controller'], $params['action']);
+        
+        $url = "/UniFood/{$controller}/{$action}";
+
+        if (!empty($params)) {
+            $url .= '/' . implode('/', $params);
+        }
+
+        header("Location: $url");
+        exit;
+    }
     
 } 
 
