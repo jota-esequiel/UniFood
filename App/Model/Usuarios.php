@@ -13,7 +13,14 @@ class Usuarios {
     }
 
     public function sqlUsuarios() {
-        $strQuery = " SELECT * FROM usuarios ";
+        $strQuery = " SELECT
+                         nomeuser,
+                         cpf,
+                         CASE sexo 
+                                WHEN 'M' THEN 'Masculino'
+                                WHEN 'F' THEN 'Feminino'
+                        END sexo
+                        FROM usuarios ";
         return $strQuery;
     }
 }

@@ -15,6 +15,9 @@
         AssetManager::renderCss(); 
 
         AssetManager::addCss('../templates/CSS/setFrm1.css');
+        AssetManager::addCss('../templates/CSS/styleTablePad.css');
+        AssetManager::addCss('../templates/CSS/showToast.css');
+        AssetManager::addCss('../fontawesome/css/all.css');
         AssetManager::renderCss();
     ?>
 </head>
@@ -26,6 +29,7 @@
 
 <?php
     AssetManager::addJs("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js");
+    AssetManager::addJs('../templates/JS/showToast.js');
     AssetManager::renderJs();
 ?>
 

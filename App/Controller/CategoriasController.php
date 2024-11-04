@@ -1,32 +1,32 @@
 <?php 
 
-//Wesley Rodrigues
-//Eduardo Silva
-
 namespace App\Controller;
 
 use App\Controller\Component\AppComponent;
 use App\Controller\Component\DataComponent;
 use App\Controller\Component\HoldComponent;
+use App\Controller\Component\FlashComponent;
 use App\Model\Categorias;
 
 class CategoriasController extends AppComponent {
     private $Categorias;
     public $Data;
     public $Hold;
+    public $Flash;
 
     public function __construct()
     {
         $this->Categorias = new Categorias();
         $this->Data = new DataComponent();
         $this->Hold = new HoldComponent();
+        $this->Flash = new FlashComponent();
     }
 
     public function cadastro() {
         $cmp = [
             'CAMPOS' => [
                 ['LABEL' => 'Nome Categoria', 'type' => 'text', 'PLACEHOLDER' => 'Nome categoria', 'CMP' => 'nomeCategoria', 'OBG' => 'S', 'CLASS' => 'frm1'],
-                ['LABEL' => 'Cadastre-se', 'type' => 'submit', 'NAME' => 'POST']
+                ['LABEL' => 'Cadastre-se', 'type' => 'submit', 'NAME' => 'POST', 'CLASS' => 'frm1']
             ]
         ];
 
@@ -39,8 +39,9 @@ class CategoriasController extends AppComponent {
 
             if(!empty($formData)) {
                 $this->Hold->insert('UNIFOOD', 'INSERT', 'categorias', $formData);
+                $this->Flash->success("Cadastro realizado com sucesso!");
             } else {
-                throw new \InvalidArgumentException('Não foi possível cadastrar à categoria!');
+                $this->Flash->error("Não foi possível cadastrar à categoria!");
             }
         }
     }
@@ -55,10 +56,10 @@ class CategoriasController extends AppComponent {
         $cmps = [
             'TABELA' => [
                 ['LABEL' => 'Id Categoria', 'CMP' => 'idcategoria'],
-                ['LABEL' => 'Categoria', 'CMP' => 'nomecategoria']
+                ['LABEL' => 'Categoria', 'CMP' => 'nomecategoria'],
             ]
         ];
-
+    
         $acoes = [
             ['controller' => 'categorias', 'action' => 'atualizar', 'cmp' => 'idcategoria', 'icon' => 'fa fa-pen'],
             ['controller' => 'categorias', 'action' => 'excluir', 'cmp' => 'idcategoria', 'icon' => 'fa fa-trash']
@@ -66,6 +67,7 @@ class CategoriasController extends AppComponent {
     
         $this->setTable($cmps, $result, $subMenu, $acoes);
     }
+    
     
 
 

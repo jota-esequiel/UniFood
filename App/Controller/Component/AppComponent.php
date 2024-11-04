@@ -7,6 +7,7 @@
 namespace App\Controller\Component;
 use App\Controller\Component\DataComponent;
 use App\Controller\Component\HoldComponent;
+use App\Controller\Component\FlashComponent;
 
 class AppComponent {
     public $Data;
@@ -119,7 +120,7 @@ class AppComponent {
                 elseif (isset($cmpsType['type']) && $cmpsType['type'] === 'submit') {
                     $valueLabel = isset($cmpsType['LABEL']) ? $cmpsType['LABEL'] : 'Confirmar';
                     $submitName = isset($cmpsType['NAME']) ? $cmpsType['NAME'] : 'POST';
-                    $valueClass = isset($cmpsType['CLASS']) ? $cmpsType['CLASS'] : '';
+                    $valueClass = isset($cmpsType['CLASS']) ? $cmpsType['CLASS'] : ''; 
                     echo '<button type="submit" name="' . $submitName . '" class="' . $valueClass . '">' . $valueLabel . '</button>';
                     echo '<br>';
                 }
@@ -227,10 +228,8 @@ class AppComponent {
             echo '</ul>';
         }
     
-        $border = ' border="1"';
-    
         if (isset($cmps['TABELA']) && is_array($cmps['TABELA'])) {
-            echo '<table' . $border . '>';
+            echo '<table class="table-custom">';
     
             $labels = [];
             $bdCmps = [];
@@ -246,10 +245,10 @@ class AppComponent {
             if (!empty($labels)) {
                 echo '<tr>';
                 foreach ($labels as $label) {
-                    echo '<td>' . $label . '</td>';
+                    echo '<th>' . $label . '</th>'; 
                 }
                 if ($acoes) {
-                    echo '<td>Ações</td>';
+                    echo '<th>Ações</th>'; 
                 }
                 echo '</tr>';
             }
@@ -305,6 +304,9 @@ class AppComponent {
             echo '</table>';
         }
     }
+    
+    
+    
     
 
     public function redirect($params)
