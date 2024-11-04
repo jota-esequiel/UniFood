@@ -5,7 +5,6 @@
  */
 
 namespace App\Controller\Component;
-
 use App\Controller\Component\DataComponent;
 use App\Controller\Component\HoldComponent;
 
@@ -14,7 +13,6 @@ class AppComponent {
     public $Hold;
 
     public function __construct() {
-        // Instancia os componentes Data e Hold
         $this->Data = new DataComponent;
         $this->Hold = new HoldComponent();
     }
@@ -213,7 +211,7 @@ class AppComponent {
      * @param array $strQuery Resultado da consulta que será utilizado ao renderizar a View
      * EM DESENVOLVIMENTO
      */
-    function setTable($cmps, $queryResult, $subMenu = null) {
+    function setTable($cmps, $queryResult, $subMenu = null, $acoes = null) {
         if (is_array($subMenu)) {
             echo '<ul class="navbar">';
             foreach ($subMenu as $key => $valueSubMenu) {
@@ -240,7 +238,7 @@ class AppComponent {
                 if (isset($item['LABEL']) && isset($item['CMP'])) {
                     $labels[] = $item['LABEL'];
                     $bdCmps[] = $item['CMP'];
-                    $tableMask[] = $item['MASK'] ?? null; 
+                    $tableMask[] = $item['MASK'] ?? null;
                 }
             }
     
@@ -249,6 +247,9 @@ class AppComponent {
                 foreach ($labels as $label) {
                     echo '<td>' . $label . '</td>';
                 }
+                if ($acoes) {
+                    echo '<td>Ações</td>';
+                }
                 echo '</tr>';
             }
     
@@ -256,7 +257,7 @@ class AppComponent {
                 foreach ($queryResult as $rowResult) {
                     echo '<tr>';
                     foreach ($bdCmps as $keyMask => $cmpQuery) {
-                        $value = isset($rowResult[$cmpQuery]) ? $rowResult[$cmpQuery] : '/A'; 
+                        $value = isset($rowResult[$cmpQuery]) ? $rowResult[$cmpQuery] : '/A';
     
                         if (!empty($tableMask[$keyMask])) {
                             switch ($tableMask[$keyMask]) {
@@ -286,6 +287,15 @@ class AppComponent {
                         }
                         echo '<td>' . $value . '</td>';
                     }
+    
+                    if ($acoes) {
+                        echo '<td>';
+                        foreach ($acoes as $acao) {
+                            $url = "{$acao['controller']}/{$acao['action']}/{$rowResult[$acao['cmp']]}";
+                            echo "<a href='$url'><i class='{$acao['icon']}'></i></a> ";
+                        }
+                        echo '</td>';
+                    }
                     echo '</tr>';
                 }
             } else {
@@ -294,6 +304,7 @@ class AppComponent {
             echo '</table>';
         }
     }
+    
 
     public function redirect($params)
     {

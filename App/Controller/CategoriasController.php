@@ -38,7 +38,7 @@ class CategoriasController extends AppComponent {
             $formData = $this->getFormData($cmp);
 
             if(!empty($formData)) {
-                $this->Hold->insert('UniFood', 'INSERT', 'categoria', $formData);
+                $this->Hold->insert('UNIFOOD', 'INSERT', 'categorias', $formData);
             } else {
                 throw new \InvalidArgumentException('Não foi possível cadastrar à categoria!');
             }
@@ -49,29 +49,36 @@ class CategoriasController extends AppComponent {
         $this->Data->bdConnect();
         $strQuery = $this->Categorias->sqlVisualizar();
         $result = $this->Data->bdQueryFetchAll($strQuery);
-
+    
         $subMenu = [];
-
+    
         $cmps = [
             'TABELA' => [
                 ['LABEL' => 'Id Categoria', 'CMP' => 'idcategoria'],
                 ['LABEL' => 'Categoria', 'CMP' => 'nomecategoria']
             ]
         ];
-        $this->setTable($cmps, $result, $subMenu);
+
+        $acoes = [
+            ['controller' => 'categorias', 'action' => 'atualizar', 'cmp' => 'idcategoria', 'icon' => 'fa fa-pen'],
+            ['controller' => 'categorias', 'action' => 'excluir', 'cmp' => 'idcategoria', 'icon' => 'fa fa-trash']
+        ];
+    
+        $this->setTable($cmps, $result, $subMenu, $acoes);
     }
+    
 
 
     public function atualizar($idCategoria) {
         $valueCod = $idCategoria;
     
         if ($valueCod > 0) {
-            $this->Data->bdConnect('UniFood');
+            $this->Data->bdConnect('UNIFOOD');
             
             $strQuery = $this->Categorias->sqlVisualizar(); 
             $strQuery .= " WHERE idCategoria = :idCategoria";
             $strBind = [':idCategoria' => $valueCod];
-            $strResult = $this->Data->bdExecBind('UniFood', $strQuery, $strBind);
+            $strResult = $this->Data->bdExecBind('UNIFOOD', $strQuery, $strBind);
     
             if ($strResult) {
                 $codCategoria = $strResult;
@@ -91,7 +98,7 @@ class CategoriasController extends AppComponent {
                     $formData = $this->getFormData($cmps);
     
                     if (!empty($formData)) {
-                        $this->Hold->update('UniFood', 'UPDATE', 'categoria', $formData, ['idCategoria' => $valueCod]);
+                        $this->Hold->update('UNIFOOD', 'UPDATE', 'categorias', $formData, ['idCategoria' => $valueCod]);
                         return $this->redirect(['controller' => 'Categorias', 'action' => 'atualizar', $valueCod]);
                     }
                 }
@@ -105,22 +112,23 @@ class CategoriasController extends AppComponent {
         $codCategoria = $idCategoria;
     
         if (!is_null($codCategoria) && $codCategoria > 0) {
-            $this->Data->bdConnect('UniFood');
+            $this->Data->bdConnect('UNIFOOD');
     
-            $strQuery = "DELETE FROM categoria WHERE idCategoria = :idCategoria";
+            $strQuery = "DELETE FROM categorias WHERE idCategoria = :idCategoria";
             $strBind = [':idCategoria' => $codCategoria];
     
             try {
-                $strResult = $this->Data->bdExecBind('UniFood', $strQuery, $strBind);
+                $strResult = $this->Data->bdExecBind('UNIFOOD', $strQuery, $strBind);
 
                 if ($strResult > 0) {
                     echo 'Registro excluído com sucesso!';
                 } else {
                     echo 'Erro ao tentar excluir! Nenhum registro foi afetado.';
                 }
-            } catch (Exception) {
+            } catch (\PDOException) {
                 echo 'Erro na execução da consulta';
             }
         }
     }
+
 }

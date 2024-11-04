@@ -9,7 +9,7 @@ class Usuarios {
     public function __construct()
     {
         $this->Data = new DataComponent();
-        $this->Data->bdConnect('UniFood');
+        $this->Data->bdConnect('UNIFOOD');
     }
 
     public function sqlUsuarios() {

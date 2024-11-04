@@ -20,6 +20,10 @@ class RouterCore
         $this->Method = $_SERVER['REQUEST_METHOD'];
         $this->Uri = $_SERVER['REQUEST_URI'];
 
+        if (preg_match('/\.(?:css|js|png|jpg|jpeg|gif|woff|woff2|ttf|svg)$/', $this->Uri)) {
+            return false;
+        }
+
         if (isset($this->Uri)) {
             $uriEx = explode('/', $this->Uri);
             $this->Uri = $this->normalize($uriEx);
@@ -92,7 +96,7 @@ class RouterCore
 
         if (class_exists($controllerNamespace) && method_exists($controllerNamespace, $action)) {
             $controllerInstance = new $controllerNamespace();
-            call_user_func_array([$controllerInstance, $action], array_merge($params, [$_POST])); // Passa os parâmetros
+            call_user_func_array([$controllerInstance, $action], array_merge($params, [$_POST]));
         } else {
             echo "404 - Controller ou método não encontrado.";
         }

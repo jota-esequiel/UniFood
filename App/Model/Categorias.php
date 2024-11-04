@@ -9,11 +9,11 @@ class Categorias {
     public function __construct()
     {
         $this->Data = new DataComponent();
-        $this->Data->bdConnect('UniFood');
+        $this->Data->bdConnect('UNIFOOD');
     }
 
     public function sqlVisualizar() {
-        $strQuery = " SELECT * FROM categoria ";
+        $strQuery = " SELECT * FROM categorias ";
         return $strQuery;
     }
 }
