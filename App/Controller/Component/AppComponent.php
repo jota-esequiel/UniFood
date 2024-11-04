@@ -119,7 +119,8 @@ class AppComponent {
                 elseif (isset($cmpsType['type']) && $cmpsType['type'] === 'submit') {
                     $valueLabel = isset($cmpsType['LABEL']) ? $cmpsType['LABEL'] : 'Confirmar';
                     $submitName = isset($cmpsType['NAME']) ? $cmpsType['NAME'] : 'POST';
-                    echo '<button type="submit" name="' . $submitName . '">' . $valueLabel . '</button>';
+                    $valueClass = isset($cmpsType['CLASS']) ? $cmpsType['CLASS'] : '';
+                    echo '<button type="submit" name="' . $submitName . '" class="' . $valueClass . '">' . $valueLabel . '</button>';
                     echo '<br>';
                 }
                 else {

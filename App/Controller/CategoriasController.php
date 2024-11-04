@@ -25,7 +25,7 @@ class CategoriasController extends AppComponent {
     public function cadastro() {
         $cmp = [
             'CAMPOS' => [
-                ['LABEL' => 'Nome Categoria', 'type' => 'text', 'PLACEHOLDER' => 'Nome categoria', 'CMP' => 'nomeCategoria', 'OBG' => 'S'],
+                ['LABEL' => 'Nome Categoria', 'type' => 'text', 'PLACEHOLDER' => 'Nome categoria', 'CMP' => 'nomeCategoria', 'OBG' => 'S', 'CLASS' => 'frm1'],
                 ['LABEL' => 'Cadastre-se', 'type' => 'submit', 'NAME' => 'POST']
             ]
         ];
