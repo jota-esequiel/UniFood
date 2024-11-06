@@ -41,6 +41,7 @@ class UsuariosController extends AppComponent {
 
             if(!empty($formData)) {
                 $this->Hold->insert('UNIFOOD', 'INSERT', 'usuarios', $formData);
+                return $this->redirect(['controller' => 'usuarios', 'action' => 'visualizar']);
             } else {
                 throw new \InvalidArgumentException('Não foi possível se cadastrar!');
             }
@@ -52,7 +53,9 @@ class UsuariosController extends AppComponent {
         $strQuery = $this->Usuarios->sqlUsuarios();
         $result = $this->Data->bdQueryFetchAll($strQuery);
 
-        $subMenu = [];
+        $subMenu = [
+            ['desc' => 'Cadastrar Usuário', 'controller' => 'usuarios', 'action' => 'cadastro']
+        ];
 
         $cmps = [
             'TABELA' => [

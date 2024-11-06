@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniFood</title>
+    <title>UniFood | <?php  ?></title>
 
     <?php 
         require '../UniFood/vendor/autoload.php';
@@ -17,6 +17,7 @@
         AssetManager::addCss('../templates/CSS/setFrm1.css');
         AssetManager::addCss('../templates/CSS/styleTablePad.css');
         AssetManager::addCss('../templates/CSS/showToast.css');
+        AssetManager::addCss('../templates/CSS/subMenu.css');
         AssetManager::addCss('../fontawesome/css/all.css');
         AssetManager::renderCss();
     ?>

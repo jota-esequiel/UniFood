@@ -51,8 +51,6 @@ class CategoriasController extends AppComponent {
         $strQuery = $this->Categorias->sqlVisualizar();
         $result = $this->Data->bdQueryFetchAll($strQuery);
     
-        $subMenu = [];
-    
         $cmps = [
             'TABELA' => [
                 ['LABEL' => 'Id Categoria', 'CMP' => 'idcategoria'],
@@ -65,12 +63,14 @@ class CategoriasController extends AppComponent {
             ['controller' => 'categorias', 'action' => 'deletar', 'cmp' => 'idcategoria', 'icon' => 'fa fa-trash']
         ];
     
+        $subMenu = [
+            ['desc' => 'Cadastrar Categoria', 'controller' => 'categorias', 'action' => 'cadastro']
+        ];
+    
         $this->setTable($cmps, $result, $subMenu, $acoes);
     }
     
     
-
-
     public function atualizar($idCategoria) {
         $valueCod = $idCategoria;
     
@@ -101,7 +101,7 @@ class CategoriasController extends AppComponent {
     
                     if (!empty($formData)) {
                         $this->Hold->update('UNIFOOD', 'UPDATE', 'categorias', $formData, ['idCategoria' => $valueCod]);
-                        return $this->redirect(['controller' => 'categorias', 'action' => 'atualizar', $valueCod]);
+                        return $this->redirect(['controller' => 'categorias', 'action' => 'visualizar']);
                     }
                 }
             } else {

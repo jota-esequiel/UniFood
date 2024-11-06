@@ -215,15 +215,10 @@ class AppComponent {
      */
     function setTable($cmps, $queryResult, $subMenu = null, $acoes = null) {
         if (is_array($subMenu)) {
-            echo '<ul class="navbar">';
-            foreach ($subMenu as $key => $valueSubMenu) {
-                if (is_array($valueSubMenu)) {
-                    echo '<li class="menu-item">' . $key . '<ul class="submenu">';
-                    foreach ($valueSubMenu as $subKey => $subValue) {
-                        echo '<li><a href="' . $subValue . '">' . $subKey . '</a></li>';
-                    }
-                    echo '</ul></li>';
-                }
+            echo '<ul class="navbar">';  
+            foreach ($subMenu as $item) {
+                $url = "/UniFood/" . strtolower($item['controller']) . "/" . strtolower($item['action']);
+                echo '<li class="menu-item"><a href="' . $url . '">' . $item['desc'] . '</a></li>';
             }
             echo '</ul>';
         }
@@ -296,7 +291,7 @@ class AppComponent {
                         }
                         echo '</td>';
                     }
-                    
+    
                     echo '</tr>';
                 }
             } else {
@@ -304,7 +299,7 @@ class AppComponent {
             }
             echo '</table>';
         }
-    }
+    }    
     
     
     
