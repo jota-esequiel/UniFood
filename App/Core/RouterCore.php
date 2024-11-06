@@ -31,7 +31,7 @@ class RouterCore
             for ($i = 0; $i < UNSET_URI_COUNT; $i++) {
                 unset($this->Uri[$i]);
             }
-            $this->Uri = implode('/', $this->normalize($this->Uri));
+            $this->Uri = implode('/', $this->Uri);
         }
     }
 

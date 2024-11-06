@@ -291,11 +291,12 @@ class AppComponent {
                     if ($acoes) {
                         echo '<td>';
                         foreach ($acoes as $acao) {
-                            $url = "{$acao['controller']}/{$acao['action']}/{$rowResult[$acao['cmp']]}";
+                            $url = "/UniFood/" . strtolower($acao['controller']) . "/" . $acao['action'] . "/" . $rowResult[$acao['cmp']];
                             echo "<a href='$url'><i class='{$acao['icon']}'></i></a> ";
                         }
                         echo '</td>';
                     }
+                    
                     echo '</tr>';
                 }
             } else {

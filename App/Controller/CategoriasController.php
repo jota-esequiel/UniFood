@@ -62,7 +62,7 @@ class CategoriasController extends AppComponent {
     
         $acoes = [
             ['controller' => 'categorias', 'action' => 'atualizar', 'cmp' => 'idcategoria', 'icon' => 'fa fa-pen'],
-            ['controller' => 'categorias', 'action' => 'excluir', 'cmp' => 'idcategoria', 'icon' => 'fa fa-trash']
+            ['controller' => 'categorias', 'action' => 'deletar', 'cmp' => 'idcategoria', 'icon' => 'fa fa-trash']
         ];
     
         $this->setTable($cmps, $result, $subMenu, $acoes);
@@ -91,7 +91,7 @@ class CategoriasController extends AppComponent {
                         ['LABEL' => 'Atualizar', 'type' => 'submit', 'NAME' => 'POST']
                     ]
                 ];
-
+    
                 $filtros = [];
     
                 $this->setFrm($cmps, $filtros);
@@ -101,15 +101,15 @@ class CategoriasController extends AppComponent {
     
                     if (!empty($formData)) {
                         $this->Hold->update('UNIFOOD', 'UPDATE', 'categorias', $formData, ['idCategoria' => $valueCod]);
-                        return $this->redirect(['controller' => 'Categorias', 'action' => 'atualizar', $valueCod]);
+                        return $this->redirect(['controller' => 'categorias', 'action' => 'atualizar', $valueCod]);
                     }
                 }
             } else {
                 echo "Categoria não encontrada!";
             }
-        } 
+        }
     }
-
+    
     public function deletar($idCategoria) {
         $codCategoria = $idCategoria;
     
