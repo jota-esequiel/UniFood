@@ -13,7 +13,7 @@ class Categorias {
     }
 
     public function sqlVisualizar() {
-        $strQuery = " SELECT * FROM categorias ";
+        $strQuery = " SELECT * FROM categorias ORDER BY idcategoria ASC ";
         return $strQuery;
     }
 }

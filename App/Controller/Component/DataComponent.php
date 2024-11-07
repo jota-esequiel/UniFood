@@ -29,16 +29,16 @@ class DataComponent {
         } catch (\Exception $PDO) {
             if ($PDO->getCode() === '3D000') { 
                 die("O banco de dados '$bd' não existe.");
-} else {
+            } else {    
                 die("Aconteceu algum problema ao se conectar com o banco de dados '$bd'!");
             }
-                    }
+        }
     }
 
     public function bdQueryFetchAll($strQuery) {
         try {
             $strPdo = $this->bdConnect();
-                        $strStmt = $strPdo->prepare($strQuery);
+            $strStmt = $strPdo->prepare($strQuery);
     
             if (empty($strStmt)) {
                 die ("Ocorreu algum problema ao preparar a consulta ao banco de dados!");

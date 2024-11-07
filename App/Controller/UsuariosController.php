@@ -54,7 +54,9 @@ class UsuariosController extends AppComponent {
         $result = $this->Data->bdQueryFetchAll($strQuery);
 
         $subMenu = [
-            ['desc' => 'Cadastrar Usuário', 'controller' => 'usuarios', 'action' => 'cadastro']
+            ['desc' => 'Cadastrar Usuário', 'controller' => 'usuarios', 'action' => 'cadastro'],
+            ['desc' => 'Cadastrar Categoria', 'controller' => 'categorias', 'action' => 'cadastro'],
+            ['desc' => 'Listar Categorias', 'controller' => 'categorias', 'action' => 'visualizar']
         ];
 
         $cmps = [
@@ -65,6 +67,73 @@ class UsuariosController extends AppComponent {
             ]
         ];
 
-        $this->setTable($cmps, $result, $subMenu);
+        $acoes = [
+            ['controller' => 'usuarios', 'action' => 'atualizar', 'cmp' => 'idusuario', 'icon' => 'fa fa-pen'],
+            ['controller' => 'usuarios', 'action' => 'deletar', 'cmp' => 'idusuario', 'icon' => 'fa fa-trash']
+        ];
+
+        $this->setTable($cmps, $result, $subMenu, $acoes);
     }
+
+    public function atualizar($idUsuario) {
+        $codUser = $idUsuario;
+        $this->Data->bdConnect();
+
+        $strQuery = $this->Usuarios->sqlUsuarios();
+        $strQuery .= " WHERE idUsuario = :idUsuario ";
+        $strBind = [':idUsuario' => $codUser];
+        $item = $this->Data->bdExecBind('UNIFOOD', $strQuery, $strBind);
+
+        $sexo = ['M' => 'Masculino', 'F' => 'Feminino'];
+
+        if(isset($item)) {
+            $itens = $item;
+
+            $filtros = [];
+
+            $cmps = [
+                'CAMPOS' => [
+                    ['LABEL' => 'Nome ', 'type' => 'text', 'PLACEHOLDER' => 'Atualizar nome...', 'CMP' => 'nomeuser', 'VALUE' => trim($itens['nomeuser'])],
+                    ['LABEL' => 'CPF ', 'type' => 'text', 'CMP' => 'cpf', 'VALUE' => trim($itens['cpf'])],
+                    ['LABEL' => 'Sexo ', 'type' => 'select', 'options' => $sexo, 'CMP' => 'sexo', 'VALUE' => trim($itens['sexo'])],
+                    ['LABEL' => 'Atualizar', 'type' => 'submit', 'NAME' => 'POST']
+                ]
+            ];
+
+            $this->setFrm($cmps, $filtros);
+
+            if($this->isSubmit('POST')) {
+                $formData = $this->getFormData($cmps);
+
+                if(!empty($formData)) {
+                    $this->Hold->update('UNIFOOD', 'UPDATE', 'usuarios', $formData, ['idUsuario' => $codUser]);
+                    return $this->redirect(['controller' => 'usuarios', 'action' => 'visualizar']);
+                }
+            }
+        }
+    }
+
+    public function deletar($idUsuario) {
+        $codUser = $idUsuario;
+
+        if(!is_null($codUser) || !empty($codUser)) {
+            $this->Data->bdConnect();
+
+            $strQuery = " DELETE FROM usuarios WHERE idUsuario = :idUsuario ";
+            $strBind = [':idUsuario' => $codUser];
+
+            try {
+                $item = $this->Data->bdExecBind('UNIFOOD', $strQuery, $strBind);
+
+                if(isset($item)) {
+                    $this->redirect(['controller' => 'usuarios', 'action' => 'visualizar']);
+                } else {
+                    $this->redirect(['controller' => 'usuarios', 'action' => 'visualizar']);
+                }
+            } catch (\PDOException) {
+                echo 'Erro na exclusão!';
+            }
+        }
+    }
+
 }

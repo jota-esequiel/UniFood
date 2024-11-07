@@ -39,9 +39,9 @@ class CategoriasController extends AppComponent {
 
             if(!empty($formData)) {
                 $this->Hold->insert('UNIFOOD', 'INSERT', 'categorias', $formData);
-                $this->Flash->success("Cadastro realizado com sucesso!");
+                $this->redirect(['controller' => 'categorias', 'action' => 'visualizar']);
             } else {
-                $this->Flash->error("Não foi possível cadastrar à categoria!");
+                $this->redirect(['controller' => 'categorias', 'action' => 'visualizar']);
             }
         }
     }
@@ -64,7 +64,8 @@ class CategoriasController extends AppComponent {
         ];
     
         $subMenu = [
-            ['desc' => 'Cadastrar Categoria', 'controller' => 'categorias', 'action' => 'cadastro']
+            ['desc' => 'Cadastrar Categoria', 'controller' => 'categorias', 'action' => 'cadastro'],
+            ['desc' => 'Cadastrar Usuários', 'controller' => 'usuarios', 'action' => 'cadastro']
         ];
     
         $this->setTable($cmps, $result, $subMenu, $acoes);
@@ -123,14 +124,15 @@ class CategoriasController extends AppComponent {
                 $strResult = $this->Data->bdExecBind('UNIFOOD', $strQuery, $strBind);
 
                 if ($strResult > 0) {
-                    echo 'Registro excluído com sucesso!';
+                    $this->redirect(['controller' => 'categorias', 'action' => 'visualizar']);
                 } else {
-                    echo 'Erro ao tentar excluir! Nenhum registro foi afetado.';
+                    $this->redirect(['controller' => 'categorias', 'action' => 'visualizar']);
                 }
             } catch (\PDOException) {
                 echo 'Erro na execução da consulta';
             }
         }
     }
+    
 
 }

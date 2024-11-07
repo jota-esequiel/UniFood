@@ -14,6 +14,7 @@ class Usuarios {
 
     public function sqlUsuarios() {
         $strQuery = " SELECT
+                        idUsuario,
                          nomeuser,
                          cpf,
                          CASE sexo 
